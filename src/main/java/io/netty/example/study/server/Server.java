@@ -40,15 +40,27 @@ public class Server {
     public static void main(String[] args) throws InterruptedException, ExecutionException, CertificateException, SSLException {
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
+        /**
+         *
+         * 三种io模式，BIO\NIO\AIO
+         *  NIO,reactor有三种模式
+         *
+         */
 
-        //liunx系统是使用epoll
+        //liunx系统是使用epoll，chanel为NIO模式
         serverBootstrap.channel(NioServerSocketChannel.class);
+        //bio模式
+//        serverBootstrap.channel(OioServerSocketChannel.class);
+        //最大等待连接数
         serverBootstrap.option(NioChannelOption.SO_BACKLOG, 1024);
+        //如果需要发送较小大的报文需要关闭
         serverBootstrap.childOption(NioChannelOption.TCP_NODELAY, true);
         //设置serverchannel,客户端代码只需要设置一个handler就可以了，服务端要设置两个
         serverBootstrap.handler(new LoggingHandler(LogLevel.INFO));
 
-        //thread，主从reactor多线程模式
+        //BIO模式
+//        OioEventLoopGroup eventExecutors = new OioEventLoopGroup();
+        //thread，主从reactor多线程模式,NIO模式
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(0, new DefaultThreadFactory("boss"));
         NioEventLoopGroup workGroup = new NioEventLoopGroup(0, new DefaultThreadFactory("worker"));
         UnorderedThreadPoolEventExecutor businessGroup = new UnorderedThreadPoolEventExecutor(10, new DefaultThreadFactory("business"));
