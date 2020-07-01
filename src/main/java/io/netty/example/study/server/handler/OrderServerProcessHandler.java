@@ -28,4 +28,9 @@ public class OrderServerProcessHandler extends SimpleChannelInboundHandler<Reque
     }
 
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println("记录异常数据。。。。。。。。。");
+        super.exceptionCaught(ctx, cause);
+    }
 }

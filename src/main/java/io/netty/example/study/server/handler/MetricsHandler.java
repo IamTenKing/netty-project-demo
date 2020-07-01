@@ -11,7 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-//参数可视化。。。
+//参数可视化。。。，jmx，console
 @ChannelHandler.Sharable
 public class MetricsHandler extends ChannelDuplexHandler {
 
@@ -30,7 +30,7 @@ public class MetricsHandler extends ChannelDuplexHandler {
 
         ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(metricRegistry).build();
         consoleReporter.start(10, TimeUnit.SECONDS);
-
+        //jmx参数需要jmc工具查看
         JmxReporter jmxReporter = JmxReporter.forRegistry(metricRegistry).build();
         jmxReporter.start();
 
