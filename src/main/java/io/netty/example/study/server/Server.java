@@ -73,7 +73,7 @@ public class Server {
             //metrics
             MetricsHandler metricsHandler = new MetricsHandler();
 
-            //trafficShaping,10mb
+            //trafficShaping,10mb，流量整形流量整形(traffic shaping)典型作用是限制流出某一网络的某一连接的流量与突发，使这类报文以比较均匀的速度向外发送
             GlobalTrafficShapingHandler globalTrafficShapingHandler = new GlobalTrafficShapingHandler(eventLoopGroupForTrafficShaping, 10 * 1024 * 1024, 10 * 1024 * 1024);
 
             //ipfilter
@@ -116,9 +116,12 @@ public class Server {
                     //数据加密
                     pipeline.addLast("ssl", sslContext.newHandler(ch.alloc()));
                     //tcp粘包，半包处理
+                    //ByteToMessageDecoder
                     pipeline.addLast("frameDecoder", new OrderFrameDecoder());
+                    //MessageToMessageEncoder
                     pipeline.addLast("frameEncoder", new OrderFrameEncoder());
                     //序列化方式
+                    //MessageToMessageDecoder
                     pipeline.addLast("protocolDecoder", new OrderProtocolDecoder());
                     pipeline.addLast("protocolEncoder", new OrderProtocolEncoder());
 

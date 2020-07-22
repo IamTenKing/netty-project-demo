@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderServerProcessHandler extends SimpleChannelInboundHandler<RequestMessage> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RequestMessage requestMessage) throws Exception {
+        //经过前面两个解码器后，到这里可以转换成对应的对象
         Operation operation = requestMessage.getMessageBody();
         OperationResult operationResult = operation.execute();
 

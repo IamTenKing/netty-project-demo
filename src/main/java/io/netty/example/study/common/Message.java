@@ -30,12 +30,14 @@ public abstract class Message<T extends MessageBody> {
         long streamId = msg.readLong();
         int opCode = msg.readInt();
 
+        //读取请求头
         MessageHeader messageHeader = new MessageHeader();
         messageHeader.setVersion(version);
         messageHeader.setOpCode(opCode);
         messageHeader.setStreamId(streamId);
         this.messageHeader = messageHeader;
 
+        //转换请求体
         Class<T> bodyClazz = getMessageBodyDecodeClass(opCode);
         T body = JsonUtil.fromJson(msg.toString(StandardCharsets.UTF_8), bodyClazz);
         this.messageBody = body;

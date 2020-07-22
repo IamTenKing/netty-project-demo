@@ -8,7 +8,9 @@ public class RequestMessage extends Message<Operation> {
         MessageHeader messageHeader = new MessageHeader();
         messageHeader.setStreamId(streamId);
         messageHeader.setOpCode(OperationType.fromOperation(operation).getOpCode());
+        //设置请求头
         this.setMessageHeader(messageHeader);
+        //设置请求体
         this.setMessageBody(operation);
     }
 
